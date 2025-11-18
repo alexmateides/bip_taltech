@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: traffic-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # optional: mount local videos dir into container so /videos works
+      - ./videos:/assets
