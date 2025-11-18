@@ -1,5 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "leaflet/dist/leaflet.css";
+
+.leaflet-control-container {
+  z-index: 10 !important;
+}
 
 @custom-variant dark (&:is(.dark *));
 
