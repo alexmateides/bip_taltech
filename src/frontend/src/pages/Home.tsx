@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { EventTypeDonut } from "@/components/EventTypeDonut";
 
 export default function Home() {
     const { data: events, isLoading } = useEventsQuery();
@@ -36,7 +37,8 @@ export default function Home() {
                 )}
             </section>
 
-            <section>
+            <section className="grid gap-4 lg:grid-cols-2">
+                <EventTypeDonut events={events} isLoading={isLoading} />
                 <Card>
                     <CardHeader>
                         <CardTitle>Recent Events</CardTitle>
