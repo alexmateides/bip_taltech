@@ -3,7 +3,7 @@ import { HomeIcon, ListChecks, Settings, Sun, Moon, MapPinned } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Home from "./pages/Home";
 import EventList from "./pages/EventList";
 import EventDetail from "./pages/EventDetail";
@@ -12,12 +12,31 @@ import { useSettings } from "@/context/SettingsContext";
 
 function Layout() {
     const location = useLocation();
-    const { reportEmail, setReportEmail } = useSettings();
+    const { reportEmail, stagedReportEmail, setStagedReportEmail, saveReportEmail, resetStagedEmail } = useSettings();
     const [isDark, setIsDark] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    const emailIsValid = useMemo(() => {
+        if (!stagedReportEmail) return false;
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(stagedReportEmail);
+    }, [stagedReportEmail]);
 
     const toggleTheme = () => {
         setIsDark((prev) => !prev);
         document.documentElement.classList.toggle("dark");
+    };
+
+    const handleSheetOpenChange = (open: boolean) => {
+        if (!open) {
+            resetStagedEmail();
+        }
+        setIsSettingsOpen(open);
+    };
+
+    const handleSaveEmail = () => {
+        if (!emailIsValid) return;
+        saveReportEmail();
+        setIsSettingsOpen(false);
     };
 
     return (
@@ -48,7 +67,7 @@ function Layout() {
                         <Button variant="ghost" size="icon" onClick={toggleTheme}>
                             {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
                         </Button>
-                        <Sheet>
+                        <Sheet open={isSettingsOpen} onOpenChange={handleSheetOpenChange}>
                             <SheetTrigger asChild>
                                 <Button variant="ghost" size="icon">
                                     <Settings className="size-5" />
@@ -59,9 +78,29 @@ function Layout() {
                                     <SheetTitle>Settings</SheetTitle>
                                 </SheetHeader>
                                 <div className="mt-6 space-y-4">
-                                    <label className="text-sm font-medium">Email for reports</label>
-                                    <Input value={reportEmail} onChange={(event) => setReportEmail(event.target.value)} />
+                                    <label className="text-sm font-medium" htmlFor="report-email-input">
+                                        Email for reports
+                                    </label>
+                                    <Input
+                                        id="report-email-input"
+                                        value={stagedReportEmail}
+                                        onChange={(event) => setStagedReportEmail(event.target.value)}
+                                        placeholder="alerts@example.com"
+                                        type="email"
+                                    />
+                                    {!emailIsValid && stagedReportEmail.length > 0 && (
+                                        <p className="text-sm text-destructive">Enter a valid email.</p>
+                                    )}
+                                    <div className="flex justify-end gap-2 pt-2">
+                                        <Button variant="outline" onClick={() => handleSheetOpenChange(false)}>
+                                            Cancel
+                                        </Button>
+                                        <Button onClick={handleSaveEmail} disabled={!emailIsValid}>
+                                            Save
+                                        </Button>
+                                    </div>
                                 </div>
+                                <p className="mt-4 text-xs text-muted-foreground">Current email: {reportEmail}</p>
                             </SheetContent>
                         </Sheet>
                     </div>

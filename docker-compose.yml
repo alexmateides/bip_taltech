@@ -11,3 +11,4 @@ services:
     volumes:
       # optional: mount local videos dir into container so /videos works
       - ./videos:/assets
+      - ./.env:/.env

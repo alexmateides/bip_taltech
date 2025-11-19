@@ -1,13 +1,15 @@
 # main.py
+import smtplib
 import os
 import base64
 from collections import defaultdict
 from typing import List, Dict, Any, Literal, Optional
+from email.message import EmailMessage
 
 import cv2
 import numpy as np
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from ultralytics import YOLO
 
@@ -66,12 +68,56 @@ class CamerasResponse(BaseModel):
     cameras: List[Camera]
 
 
+class SendReportRequest(BaseModel):
+    eventId: str
+    email: EmailStr
+
+
+class SendReportResponse(BaseModel):
+    success: bool
+    message: str
+
+
 # -----------------------------
 # Global in-memory storage
 # -----------------------------
 app = FastAPI(title="Traffic Emergency Monitor POC")
 
 CAMERA_STREAMS: Dict[str, CameraStream] = {}
+
+MOCK_EVENT_DATA: Dict[str, Dict[str, Any]] = {
+    "evt1": {
+        "id": "evt1",
+        "type": "Vehicle collision",
+        "timestamp_start": 2.0,
+        "timestamp_end": 4.0,
+        "location": "Tallinn Old Town",
+        "confidence": 0.91,
+        "occurred_at": "2024-05-01T10:15:00Z",
+        "video_url": "https://example.com/videos/evt1.mp4",
+        "description": "Collision involving two vehicles at Tallinn Old Town.",
+    },
+    "evt2": {
+        "id": "evt2",
+        "type": "Pedestrian near-miss",
+        "timestamp_start": 32.0,
+        "timestamp_end": 36.0,
+        "location": "Kesklinn",
+        "confidence": 0.88,
+        "occurred_at": "2024-05-02T08:20:00Z",
+        "video_url": "https://example.com/videos/evt2.mp4",
+        "description": "Pedestrian detected dangerously close to roadway.",
+    },
+}
+
+# Email configuration
+EMAIL_SMTP_HOST = os.getenv("EMAIL_SMTP_HOST", "localhost")
+EMAIL_SMTP_PORT = int(os.getenv("EMAIL_SMTP_PORT", "1025"))
+EMAIL_SMTP_USERNAME = os.getenv("EMAIL_SMTP_USERNAME")
+EMAIL_SMTP_PASSWORD = os.getenv("EMAIL_SMTP_PASSWORD")
+EMAIL_SMTP_USE_TLS = os.getenv("EMAIL_SMTP_USE_TLS", "false").lower() == "true"
+EMAIL_FROM_ADDRESS = os.getenv("REPORT_EMAIL_FROM", "stuber0016@gmail.com")
+EMAIL_TIMEOUT_SECONDS = int(os.getenv("EMAIL_TIMEOUT_SECONDS", "15"))
 
 
 # -----------------------------
@@ -379,6 +425,39 @@ def analyze_video(video_path: str, camera_id: str, model: YOLO) -> CameraStream:
     return CameraStream(camera_id=camera_id, chunks=chunks, metrics=metrics)
 
 
+def compose_event_report(event_data: Dict[str, Any]) -> str:
+    lines = [
+        f"Event ID: {event_data['id']}",
+        f"Type: {event_data['type']}",
+        f"Confidence: {event_data['confidence']}",
+        f"Window: {event_data['timestamp_start']}s - {event_data['timestamp_end']}s",
+        f"Location: {event_data['location']}",
+        f"Occurred at: {event_data['occurred_at']}",
+        f"Video: {event_data['video_url']}",
+        "",
+        event_data.get("description", "No description provided."),
+    ]
+    return "\n".join(lines)
+
+
+def send_email_via_smtp(recipient: str, subject: str, body: str) -> None:
+    message = EmailMessage()
+    message["From"] = EMAIL_FROM_ADDRESS
+    message["To"] = recipient
+    message["Subject"] = subject
+    message.set_content(body)
+
+    try:
+        with smtplib.SMTP(EMAIL_SMTP_HOST, EMAIL_SMTP_PORT, timeout=EMAIL_TIMEOUT_SECONDS) as server:
+            if EMAIL_SMTP_USE_TLS:
+                server.starttls()
+            if EMAIL_SMTP_USERNAME and EMAIL_SMTP_PASSWORD:
+                server.login(EMAIL_SMTP_USERNAME, EMAIL_SMTP_PASSWORD)
+            server.send_message(message)
+    except Exception as exc:
+        raise RuntimeError(f"Failed to send email: {exc}") from exc
+
+
 # -----------------------------
 # Startup: analyze all videos (with caching)
 # -----------------------------
@@ -431,6 +510,23 @@ def get_camera_stream(camera_id: str):
     if not stream:
         raise HTTPException(status_code=404, detail="Camera not found")
     return stream
+
+
+@app.post("/api/v1/reports/email", response_model=SendReportResponse)
+def send_report_email(payload: SendReportRequest):
+    event_data = MOCK_EVENT_DATA.get(payload.eventId)
+    if not event_data:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    subject = f"Traffic event report: {event_data['type']} ({event_data['id']})"
+    body = compose_event_report(event_data)
+
+    try:
+        send_email_via_smtp(payload.email, subject, body)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+    return SendReportResponse(success=True, message="Report sent")
 
 
 if __name__ == "__main__":

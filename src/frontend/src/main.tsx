@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import App from "./App.tsx";
 import { SettingsProvider } from "@/context/SettingsContext";
+import { ToastProvider } from "@/components/ui/use-toast";
 
 const queryClient = new QueryClient();
 
@@ -11,9 +12,11 @@ createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <QueryClientProvider client={queryClient}>
             <SettingsProvider>
-                <div className="min-h-screen bg-background text-foreground">
-                    <App />
-                </div>
+                <ToastProvider>
+                    <div className="min-h-screen bg-background text-foreground">
+                        <App />
+                    </div>
+                </ToastProvider>
             </SettingsProvider>
         </QueryClientProvider>
     </StrictMode>

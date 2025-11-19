@@ -1,4 +1,4 @@
-import { useEventQuery, useEventVideoQuery } from "@/api/events";
+import { useEventQuery } from "@/api/events";
 import { useSettings } from "@/context/SettingsContext";
 import { ArrowLeft, Send } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
@@ -10,26 +10,26 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { EventIcon } from "@/components/EventIcon";
+import { useSendReportMutation } from "@/api/reports";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function EventDetail() {
     const { id } = useParams();
     const { data: event, isLoading } = useEventQuery(id);
     const { reportEmail } = useSettings();
-    const { data: videoData } = useEventVideoQuery(event?.videoId);
+    const { toast } = useToast();
+    const sendReportMutation = useSendReportMutation();
 
-    const handleReport = () => {
+    const handleReport = async () => {
         if (!event) return;
-        const subject = encodeURIComponent(`Event report: ${event.type}`);
-        const bodyLines = [
-            `Event ID: ${event.id}`,
-            `Type: ${event.type}`,
-            `Confidence: ${event.confidence.toFixed(2)}`,
-            `Occurred at: ${new Date(event.occurredAt).toLocaleString()}`,
-            `Location: ${event.location.label ?? `${event.location.lat}, ${event.location.lng}`}`,
-            `Video URL: ${videoData?.url ?? "Not available"}`,
-        ];
-        const body = encodeURIComponent(bodyLines.join("\n"));
-        window.location.href = `mailto:${reportEmail}?subject=${subject}&body=${body}`;
+        try {
+            await sendReportMutation.mutateAsync({ eventId: event.id, email: reportEmail });
+            toast({ title: "Report sent", description: `Report emailed to ${reportEmail}` });
+        } catch (error) {
+            const description =
+                error instanceof Error ? error.message : "Unable to send report. Please try again.";
+            toast({ title: "Failed to send", description, variant: "destructive" });
+        }
     };
 
     if (isLoading) {
@@ -71,8 +71,9 @@ export default function EventDetail() {
                         <h1 className="text-3xl font-semibold">{event.type}</h1>
                     </div>
                     <div className="flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:gap-3">
-                        <Button size="sm" onClick={handleReport} className="w-full sm:w-auto">
-                            <Send className="mr-2 size-4" /> Report event
+                        <Button size="sm" onClick={handleReport} className="w-full sm:w-auto" disabled={sendReportMutation.isPending}>
+                            <Send className="mr-2 size-4" />
+                            {sendReportMutation.isPending ? "Sending..." : "Report event"}
                         </Button>
                         <Badge className="w-fit">{event.confidence.toFixed(2)} confidence</Badge>
                     </div>

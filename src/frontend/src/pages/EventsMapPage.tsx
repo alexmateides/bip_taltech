@@ -63,7 +63,7 @@ export default function EventsMapPage() {
         );
     }
 
-    const center = [events[0].location.lat, events[0].location.lng] as const;
+    const center = [events[0].location.lat, events[0].location.lng] as [number, number];
 
     return (
         <div className="mx-auto w-full max-w-6xl space-y-6 px-6 py-10">
@@ -89,4 +89,3 @@ export default function EventsMapPage() {
         </div>
     );
 }
-
