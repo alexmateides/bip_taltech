@@ -11,7 +11,7 @@ const SheetOverlay = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Ov
         <DialogPrimitive.Overlay
             ref={ref}
             className={cn(
-                "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+                "fixed inset-0 z-[3000] bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
                 className
             )}
             {...props}
@@ -27,7 +27,7 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Co
             <DialogPrimitive.Content
                 ref={ref}
                 className={cn(
-                    "fixed inset-y-0 right-0 z-50 h-full w-full max-w-md border-l bg-background p-6 shadow-lg transition duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
+                    "fixed inset-y-0 right-0 z-[3001] h-full w-full max-w-md border-l bg-background p-6 shadow-lg transition duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
                     className
                 )}
                 {...props}
@@ -70,4 +70,3 @@ const SheetDescription = React.forwardRef<React.ElementRef<typeof DialogPrimitiv
 SheetDescription.displayName = DialogPrimitive.Description.displayName;
 
 export { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription };
-

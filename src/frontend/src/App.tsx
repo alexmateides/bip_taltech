@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
-import { HomeIcon, ListChecks, Settings, Sun, Moon } from "lucide-react";
+import { HomeIcon, ListChecks, Settings, Sun, Moon, MapPinned } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import Home from "./pages/Home";
 import EventList from "./pages/EventList";
 import EventDetail from "./pages/EventDetail";
+import EventsMapPage from "./pages/EventsMapPage";
 import { useSettings } from "@/context/SettingsContext";
 
 function Layout() {
@@ -37,6 +38,12 @@ function Layout() {
                             Events
                         </Link>
                     </Button>
+                    <Button variant={location.pathname === "/map" ? "default" : "ghost"} asChild>
+                        <Link to="/map" className="inline-flex items-center gap-2">
+                            <MapPinned className="size-4" />
+                            Map
+                        </Link>
+                    </Button>
                     <div className="ml-auto flex items-center gap-3">
                         <Button variant="ghost" size="icon" onClick={toggleTheme}>
                             {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
@@ -65,6 +72,7 @@ function Layout() {
                     <Route path="/" element={<Home />} />
                     <Route path="/events" element={<EventList />} />
                     <Route path="/events/:id" element={<EventDetail />} />
+                    <Route path="/map" element={<EventsMapPage />} />
                 </Routes>
             </main>
         </div>

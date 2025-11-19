@@ -2,8 +2,10 @@
 @import "tw-animate-css";
 @import "leaflet/dist/leaflet.css";
 
+.leaflet-top,
+.leaflet-bottom,
 .leaflet-control-container {
-  z-index: 10 !important;
+  z-index: 900 !important;
 }
 
 @custom-variant dark (&:is(.dark *));
