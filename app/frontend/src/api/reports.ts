@@ -2,7 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import client from "./client";
 
 export interface SendReportPayload {
-    eventId: string;
+    camera_id: string;
+    event_id: string;
     email: string;
 }
 

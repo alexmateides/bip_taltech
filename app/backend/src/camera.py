@@ -26,7 +26,7 @@ def open_file_range(file_path: Path, start: int, end: int, chunk_size: int = 102
             yield data
 
 
-@router.get("")
+@router.get("/cameras")
 async def get_cameras():
     return os.listdir(VIDEOS_DIR)
 
@@ -103,11 +103,18 @@ async def get_video(name: str, range: str | None = Header(default=None)):
     )
 
 
-@router.get("/{name}/events")
-async def get_camera_events(name: str):
-    events_path = VIDEOS_DIR / f"{name}/events.json"
+@router.get("/events")
+async def get_camera_events():
+    cameras_events = []
+    for camera_dir in VIDEOS_DIR.iterdir():
+        if not camera_dir.is_dir():
+            continue
+        events_path = camera_dir / "events.json"
+        print(events_path)
+        if not events_path.is_file():
+            continue
+        with events_path.open("r") as f:
+            data = json.load(f)
+        cameras_events.append({"camera": camera_dir.name, "events": data})
 
-    with open(events_path, 'r') as f:
-        data = json.load(f)
-
-    return JSONResponse(status_code=200, content=data)
+    return JSONResponse(status_code=200, content=cameras_events)

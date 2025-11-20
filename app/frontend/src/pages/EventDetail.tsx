@@ -26,7 +26,11 @@ export default function EventDetail() {
         try {
             const {data} = await client.get("/api/v1/cameras");
             console.log("CAMERAS:", data);
-            await sendReportMutation.mutateAsync({ eventId: event.id, email: reportEmail });
+
+            console.log("Camera ID:", event.videoId);
+            console.log("Sending report for event:", event.id);
+            console.log("Report email:", reportEmail);
+            await sendReportMutation.mutateAsync({ camera_id: event.videoId, event_id: event.id, email: reportEmail });
             toast({ title: "Report sent", description: `Report emailed to ${reportEmail}` });
         } catch (error) {
             const description =

@@ -17,8 +17,8 @@ from src.camera import router as camera_router
 from src.report import router as report_router
 
 app = FastAPI(title="Traffic Emergency Monitor POC")
-app.include_router(camera_router, prefix="/api/v1/cameras")
-app.include_router(report_router, prefix="/api/v1/reports")
+app.include_router(camera_router, prefix="/api/v1")
+app.include_router(report_router, prefix="/api/v1")
 
 # Add CORS
 app.add_middleware(
