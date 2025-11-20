@@ -20,11 +20,6 @@ app = FastAPI(title="Traffic Emergency Monitor POC")
 app.include_router(camera_router, prefix="/api/v1/cameras")
 app.include_router(report_router, prefix="/api/v1/reports")
 
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8001)
 # Add CORS
 app.add_middleware(
     CORSMiddleware,
@@ -33,3 +28,8 @@ app.add_middleware(
     allow_methods=['*'],  # Allows all methods
     allow_headers=['*'],  # Allows all headers
 )
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8001)
