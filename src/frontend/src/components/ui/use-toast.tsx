@@ -1,6 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as React from "react";
-
-const TOAST_TIMEOUT = 5000;
+import { TOAST_DISMISS_DELAY } from "./toast-constants";
 
 interface ToastOptions {
     id?: string;
@@ -32,7 +32,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         ({ id, ...opts }: ToastOptions) => {
             const nextId = id ?? crypto.randomUUID();
             setToasts((current) => [...current, { id: nextId, ...opts }]);
-            window.setTimeout(() => dismiss(nextId), TOAST_TIMEOUT);
+            window.setTimeout(() => dismiss(nextId), TOAST_DISMISS_DELAY);
         },
         [dismiss]
     );
@@ -64,4 +64,4 @@ export function useToast() {
     }
     return ctx;
 }
-
+/* eslint-enable react-refresh/only-export-components */
