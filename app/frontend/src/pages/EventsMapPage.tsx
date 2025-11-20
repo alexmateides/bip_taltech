@@ -29,7 +29,7 @@ function EventMarker({ event }: { event: VideoEventListItem }) {
                 <div className="space-y-1">
                     <p className="font-semibold">{event.type}</p>
                     <p className="text-sm text-muted-foreground">
-                        {new Date(event.occurredAt).toLocaleString()}
+                        {new Date(event.occurred_at).toLocaleString()}
                     </p>
                     <Link to={`/events/${event.id}`} className="text-sm text-primary underline">
                         View details
@@ -38,6 +38,18 @@ function EventMarker({ event }: { event: VideoEventListItem }) {
             </Popup>
         </Marker>
     );
+}
+
+function sortByDate(
+    events: VideoEventListItem[],
+    direction: string
+) {
+    return events.sort((a, b) => {
+        const dateA = new Date(a.occurred_at).getTime();
+        const dateB = new Date(b.occurred_at).getTime();
+
+        return direction === "asc" ? dateA - dateB : dateB - dateA;
+    });
 }
 
 export default function EventsMapPage() {
@@ -63,7 +75,8 @@ export default function EventsMapPage() {
         );
     }
 
-    const center = [events[0].location.lat, events[0].location.lng] as [number, number];
+    const sortedEvents = sortByDate(events, "desc");
+    const center = [sortedEvents[0].location.lat, sortedEvents[0].location.lng] as [number, number];
 
     return (
         <div className="mx-auto w-full max-w-6xl space-y-8 px-6 py-10">
@@ -85,7 +98,7 @@ export default function EventsMapPage() {
                             className="h-[600px] w-full [&_.leaflet-pane]:z-0 [&_.leaflet-control-container]:z-0"
                         >
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                            {events.map((event) => (
+                            {sortedEvents.map((event) => (
                                 <EventMarker key={event.id} event={event} />
                             ))}
                         </MapContainer>

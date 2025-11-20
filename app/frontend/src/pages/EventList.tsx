@@ -51,10 +51,12 @@ function filterEvents(
     });
 }
 
-function sortByDate(events: VideoEventListItem[], direction: string) {
+function sortByDate(
+    events: VideoEventListItem[],
+    direction: string
+) {
     return [...events].sort((a, b) => {
-        const diff =
-            new Date(a.occurredAt).getTime() - new Date(b.occurredAt).getTime();
+        const diff = new Date(a.occurred_at).getTime() - new Date(b.occurred_at).getTime();
         return direction === "asc" ? diff : -diff;
     });
 }
@@ -147,12 +149,10 @@ export default function EventList() {
                                     <Badge>{event.confidence.toFixed(2)}</Badge>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    Occurred:{" "}
-                                    {new Date(event.occurredAt).toLocaleString()}
+                                    Occurred: {new Date(event.occurred_at).toLocaleString()}
                                 </p>
                                 <p className="text-sm text-muted-foreground">
-                                    {event.timestamp_start.toFixed(1)}s –{" "}
-                                    {event.timestamp_end.toFixed(1)}s
+                                    {event.timestamp_start.toFixed(1)}s – {event.timestamp_end.toFixed(1)}s
                                 </p>
                             </CardHeader>
                             <CardContent className="flex flex-col gap-3">
@@ -164,9 +164,7 @@ export default function EventList() {
                                 <p className="text-sm text-muted-foreground">
                                     Location:{" "}
                                     {event.location.label ??
-                                        `${event.location.lat.toFixed(
-                                            2
-                                        )}, ${event.location.lng.toFixed(2)}`}
+                                        `${event.location.lat.toFixed(2)}, ${event.location.lng.toFixed(2)}`}
                                 </p>
                             </CardContent>
                             <CardFooter>

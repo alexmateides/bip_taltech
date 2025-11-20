@@ -13,7 +13,7 @@ export interface SendReportResponse {
 }
 
 export async function sendEventReport(payload: SendReportPayload): Promise<SendReportResponse> {
-    const { data } = await client.post<SendReportResponse>("/api/v1/reports/email", payload);
+    const { data } = await client.post<SendReportResponse>("/reports/email", payload);
     return data;
 }
 

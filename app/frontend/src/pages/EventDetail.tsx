@@ -1,4 +1,4 @@
-import { useEventQuery } from "@/api/events";
+import { findEventById, useEventsQuery } from "@/api/events";
 import { useSettings } from "@/context/SettingsContext";
 import { ArrowLeft, Send } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
@@ -16,7 +16,8 @@ import client from "@/api/client.ts";
 
 export default function EventDetail() {
     const { id } = useParams();
-    const { data: event, isLoading } = useEventQuery(id);
+    const { data: events = [], isLoading } = useEventsQuery();
+    const event = findEventById(events, id);
     const { reportEmail } = useSettings();
     const { toast } = useToast();
     const sendReportMutation = useSendReportMutation();
@@ -24,14 +25,14 @@ export default function EventDetail() {
     const handleReport = async () => {
         if (!event) return;
         try {
-            const {data} = await client.get("/api/v1/cameras");
+            const {data} = await client.get("/cameras");
             console.log("CAMERAS:", data);
 
-            console.log("Camera ID:", event.videoId);
+            console.log("Camera ID:", event.camera_id);
             console.log("Sending report for event:", event.id);
             console.log("Report email:", reportEmail);
-            await sendReportMutation.mutateAsync({ camera_id: event.videoId, event_id: event.id, email: reportEmail });
-            toast({ title: "Report sent", description: `Report emailed to ${reportEmail}` });
+            await sendReportMutation.mutateAsync({ camera_id: event.camera_id, event_id: event.id, email: reportEmail });
+            toast({ title: "Report sent", description: `Report emailed to ${reportEmail}`, variant: "success" });
         } catch (error) {
             const description =
                 error instanceof Error ? error.message : "Unable to send report. Please try again.";
@@ -86,7 +87,7 @@ export default function EventDetail() {
                     </div>
                 </div>
                 <p className="text-muted-foreground">
-                    Occurred: {new Date(event.occurredAt).toLocaleString()}
+                    Occurred: {new Date(event.occurred_at).toLocaleString()}
                 </p>
                 <p className="text-muted-foreground">
                     {event.timestamp_start.toFixed(2)}s – {event.timestamp_end.toFixed(2)}s
@@ -106,14 +107,12 @@ export default function EventDetail() {
                     {event.description && <p>{event.description}</p>}
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <p className="text-muted-foreground">Road segment</p>
-                            <p className="font-medium">{event.roadSegment ?? "N/A"}</p>
+                            <p className="text-muted-foreground">Camera</p>
+                            <p className="font-medium">{event.camera_id}</p>
                         </div>
                         <div>
-                            <p className="text-muted-foreground">Detected objects</p>
-                            <p className="font-medium">
-                                {event.detectedObjects?.join(", ") ?? "Pending from backend"}
-                            </p>
+                            <p className="text-muted-foreground">Confidence</p>
+                            <p className="font-medium">{(event.confidence * 100).toFixed(1)}%</p>
                         </div>
                     </div>
                     <Separator />

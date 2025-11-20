@@ -110,7 +110,6 @@ async def get_camera_events():
         if not camera_dir.is_dir():
             continue
         events_path = camera_dir / "events.json"
-        print(events_path)
         if not events_path.is_file():
             continue
         with events_path.open("r") as f:

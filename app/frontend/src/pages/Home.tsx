@@ -1,4 +1,4 @@
-import { useEventsQuery, useEventMetricsQuery } from "@/api/events";
+import { useEventsQuery, useEventMetricsQuery, calculateEventMetrics } from "@/api/events";
 import { MetricCard } from "@/components/MetricCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { EventTypeDonut } from "@/components/EventTypeDonut";
 export default function Home() {
     const { data: events, isLoading } = useEventsQuery();
     const { data: metrics } = useEventMetricsQuery();
+    const fallbackMetrics = calculateEventMetrics(events);
 
     return (
         <div className="mx-auto w-full max-w-6xl space-y-8 px-6 py-10">
@@ -28,9 +29,9 @@ export default function Home() {
                 )}
                 {!isLoading && (
                     <>
-                        <MetricCard title="Total Events" value={metrics?.totalEvents ?? events?.length ?? 0} />
-                        <MetricCard title="High Confidence" value={metrics?.highConfidence ?? 0} />
-                        <MetricCard title="Low Confidence" value={metrics?.lowConfidence ?? 0} />
+                        <MetricCard title="Total Events" value={metrics?.totalEvents ?? fallbackMetrics.totalEvents} />
+                        <MetricCard title="High Confidence" value={metrics?.highConfidence ?? fallbackMetrics.highConfidence} />
+                        <MetricCard title="Low Confidence" value={metrics?.lowConfidence ?? fallbackMetrics.lowConfidence} />
                     </>
                 )}
             </section>

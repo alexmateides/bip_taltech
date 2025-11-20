@@ -6,7 +6,7 @@ interface ToastOptions {
     id?: string;
     title?: string;
     description?: string;
-    variant?: "default" | "destructive";
+    variant?: "default" | "destructive" | "success";
 }
 
 interface Toast extends ToastOptions {
@@ -37,6 +37,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         [dismiss]
     );
 
+    const variantClassMap: Record<NonNullable<ToastOptions["variant"]>, string> = {
+        default: "border-border bg-background text-foreground",
+        destructive: "border-destructive/50 bg-destructive text-destructive-foreground",
+        success: "border-emerald-500/60 bg-emerald-500/10 text-emerald-700 dark:text-emerald-100",
+    };
+
     return (
         <ToastContext.Provider value={{ toasts, toast, dismiss }}>
             {children}
@@ -44,7 +50,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className={`rounded-md border bg-background p-4 shadow-lg ${toast.variant === "destructive" ? "border-destructive/50 bg-destructive text-destructive-foreground" : "border-border"}`}
+                        className={`rounded-md border p-4 shadow-lg ${variantClassMap[toast.variant ?? "default"]}`}
                     >
                         {toast.title && <p className="font-semibold">{toast.title}</p>}
                         {toast.description && (

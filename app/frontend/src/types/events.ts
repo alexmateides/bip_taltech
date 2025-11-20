@@ -16,38 +16,20 @@ export interface EventLocation {
     label?: string;
 }
 
-export interface VideoEvent {
+export type VideoEvent = {
     id: string;
-    type: EventType;
-    timestamp_start: number;
-    timestamp_end: number;
-    confidence: number; // 0-1 score from detection model
-    thumbnailUrl: string;
-    videoId: string;
-    location: EventLocation;
-    description?: string;
-    detectedObjects?: string[];
-    roadSegment?: string;
-    occurredAt: string;
-}
-
-export interface VideoEventListItem {
-    id: string;
+    camera_id: string;
     type: EventType;
     timestamp_start: number;
     timestamp_end: number;
     confidence: number;
-    thumbnailUrl: string;
-    videoId: string;
     location: EventLocation;
-    occurredAt: string;
-}
+    description?: string;
+    occurred_at: string;
+    thumbnailUrl?: string;
+};
 
-export interface VideoEventVideo {
-    videoId: string;
-    url: string;
-    thumbnailUrl: string;
-}
+export type VideoEventListItem = VideoEvent;
 
 export interface EventMetricSummary {
     totalEvents: number;

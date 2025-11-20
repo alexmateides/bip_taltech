@@ -1,17 +1,8 @@
 import client from "./client";
-import {
-    fetchMockEventById,
-    fetchMockEvents,
-    fetchMockEventVideo,
-    fetchMockMetrics,
-} from "./mockEvents";
-import type {
-    EventMetricSummary,
-    VideoEvent,
-    VideoEventListItem,
-    VideoEventVideo,
-} from "@/types/events";
+import { fetchMockEvents, mockMetrics } from "./mockEvents";
+import type { EventMetricSummary, VideoEvent, VideoEventListItem } from "@/types/events";
 import { useQuery } from "@tanstack/react-query";
+import thumbnails from "@/assets/thumbnails";
 
 const EVENTS_BASE = "/events";
 
@@ -20,28 +11,15 @@ const useMockData = import.meta.env.VITE_USE_MOCKS === "true";
 async function fetchEventsApi(): Promise<VideoEventListItem[]> {
     if (useMockData) return fetchMockEvents();
     const { data } = await client.get<VideoEventListItem[]>(EVENTS_BASE);
-    return data;
-}
-
-async function fetchEventByIdApi(id: string): Promise<VideoEvent> {
-    if (useMockData) {
-        const result = await fetchMockEventById(id);
-        if (!result) throw new Error("Event not found");
-        return result;
-    }
-    const { data } = await client.get<VideoEvent>(`${EVENTS_BASE}/${id}`);
-    return data;
-}
-
-async function fetchEventVideoApi(videoId: string): Promise<VideoEventVideo> {
-    if (useMockData) return fetchMockEventVideo(videoId);
-    const { data } = await client.get<VideoEventVideo>(`${EVENTS_BASE}/${videoId}/video`);
-    return data;
+    return data.map((event, index) => ({
+        ...event,
+        thumbnailUrl: thumbnails[index % thumbnails.length],
+    }));
 }
 
 async function fetchEventMetricsApi(): Promise<EventMetricSummary> {
     if (useMockData) {
-        return fetchMockMetrics();
+        return mockMetrics;
     }
     const { data } = await client.get<EventMetricSummary>(`${EVENTS_BASE}/metrics`);
     return data;
@@ -51,22 +29,6 @@ export function useEventsQuery() {
     return useQuery({
         queryKey: ["events"],
         queryFn: fetchEventsApi,
-    });
-}
-
-export function useEventQuery(id?: string) {
-    return useQuery({
-        queryKey: ["events", id],
-        queryFn: () => fetchEventByIdApi(id!),
-        enabled: Boolean(id),
-    });
-}
-
-export function useEventVideoQuery(videoId?: string) {
-    return useQuery({
-        queryKey: ["events", videoId, "video"],
-        queryFn: () => fetchEventVideoApi(videoId!),
-        enabled: Boolean(videoId),
     });
 }
 
@@ -89,4 +51,9 @@ export function useEventMetricsQuery() {
         queryKey: ["events", "metrics"],
         queryFn: fetchEventMetricsApi,
     });
+}
+
+export function findEventById(events: VideoEvent[] | undefined, id?: string) {
+    if (!events || !id) return undefined;
+    return events.find((evt) => evt.id === id);
 }
