@@ -1,5 +1,5 @@
 import { useEventsQuery } from "@/api/events";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
@@ -66,11 +66,17 @@ export default function EventsMapPage() {
     const center = [events[0].location.lat, events[0].location.lng] as [number, number];
 
     return (
-        <div className="mx-auto w-full max-w-6xl space-y-6 px-6 py-10">
+        <div className="mx-auto w-full max-w-6xl space-y-8 px-6 py-10">
+            <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <h1 className="text-3xl font-semibold">Event Map</h1>
+                    <p className="text-muted-foreground">
+                        See detected events throughout the city.
+                    </p>
+                </div>
+            </header>
+
             <Card>
-                <CardHeader>
-                    <CardTitle>Event Map</CardTitle>
-                </CardHeader>
                 <CardContent>
                     <div className="overflow-hidden rounded-lg border">
                         <MapContainer

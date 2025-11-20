@@ -79,7 +79,7 @@ export default function EventList() {
                     </p>
                     <h1 className="text-3xl font-semibold">Detected Events</h1>
                     <p className="text-muted-foreground">
-                        Explore the detected anomalies, traffic signs, and more.
+                        Explore the detected anomalies and more.
                     </p>
                 </div>
             </header>
