@@ -3,12 +3,13 @@ import { HomeIcon, ListChecks, Settings, Sun, Moon, MapPinned } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Home from "./pages/Home";
 import EventList from "./pages/EventList";
 import EventDetail from "./pages/EventDetail";
 import EventsMapPage from "./pages/EventsMapPage";
 import { useSettings } from "@/context/SettingsContext";
+import { AllpueliIntro } from "@/components/AllpueliIntro";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import AllpueliLogo from "@/assets/allpueli_logo_invertable_shrinked.svg?react";
@@ -18,6 +19,7 @@ function Layout() {
     const { reportEmail, stagedReportEmail, setStagedReportEmail, saveReportEmail, resetStagedEmail } = useSettings();
     const [isDark, setIsDark] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [showIntro, setShowIntro] = useState(() => localStorage.getItem("allpueli-intro-played") !== "true");
 
     const emailIsValid = useMemo(() => {
         if (!stagedReportEmail) return false;
@@ -41,6 +43,15 @@ function Layout() {
         saveReportEmail();
         setIsSettingsOpen(false);
     };
+
+    useEffect(() => {
+        if (!showIntro) return;
+        const timeout = window.setTimeout(() => {
+            localStorage.setItem("allpueli-intro-played", "true");
+            setShowIntro(false);
+        }, 2400);
+        return () => window.clearTimeout(timeout);
+    }, [showIntro]);
 
     return (
         <div className="min-h-screen bg-background text-foreground">
@@ -115,6 +126,7 @@ function Layout() {
                 </nav>
             </header>
             <main>
+                {showIntro && <AllpueliIntro />}
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/events" element={<EventList />} />
