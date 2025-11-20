@@ -1,0 +1,24 @@
+{
+    "evt1": {
+        "id": "evt1",
+        "type": "Vehicle collision",
+        "timestamp_start": 2.0,
+        "timestamp_end": 4.0,
+        "location": "Tallinn Old Town",
+        "confidence": 0.91,
+        "occurred_at": "2024-05-01T10:15:00Z",
+        "video_url": "https://example.com/videos/evt1.mp4",
+        "description": "Collision involving two vehicles at Tallinn Old Town."
+    },
+    "evt2": {
+        "id": "evt2",
+        "type": "Pedestrian near-miss",
+        "timestamp_start": 32.0,
+        "timestamp_end": 36.0,
+        "location": "Kesklinn",
+        "confidence": 0.88,
+        "occurred_at": "2024-05-02T08:20:00Z",
+        "video_url": "https://example.com/videos/evt2.mp4",
+        "description": "Pedestrian detected dangerously close to roadway."
+    }
+}
