@@ -30,6 +30,7 @@ def open_file_range(file_path: Path, start: int, end: int, chunk_size: int = 102
 async def get_cameras():
     return os.listdir(VIDEOS_DIR)
 
+
 @router.get("/{name}/stream")
 async def get_video(name: str, range: str | None = Header(default=None)):
     """
@@ -58,7 +59,6 @@ async def get_video(name: str, range: str | None = Header(default=None)):
             status_code=200,
         )
 
-    # Example Range header: "bytes=0-1023"
     try:
         units, _, range_spec = range.partition("=")
         if units.strip().lower() != "bytes":
@@ -79,14 +79,12 @@ async def get_video(name: str, range: str | None = Header(default=None)):
         if end_str:
             end = int(end_str)
         else:
-            # bytes=500-  (from 500 to end)
             end = file_size - 1
 
         if start > end or start >= file_size:
             raise ValueError("Invalid byte range")
 
     except ValueError:
-        # Malformed or unsatisfiable range
         raise HTTPException(status_code=416, detail="Invalid Range header")
 
     chunk_size = (end - start) + 1
@@ -101,7 +99,7 @@ async def get_video(name: str, range: str | None = Header(default=None)):
         open_file_range(video_path, start, end),
         media_type=content_type,
         headers=headers,
-        status_code=206,  # Partial Content
+        status_code=206,
     )
 
 
