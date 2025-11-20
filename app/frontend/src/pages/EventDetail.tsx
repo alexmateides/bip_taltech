@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { EventIcon } from "@/components/EventIcon";
 import { useSendReportMutation } from "@/api/reports";
 import { useToast } from "@/components/ui/use-toast";
+import client from "@/api/client.ts";
 
 export default function EventDetail() {
     const { id } = useParams();
@@ -23,6 +24,8 @@ export default function EventDetail() {
     const handleReport = async () => {
         if (!event) return;
         try {
+            const {data} = await client.get("/api/v1/cameras");
+            console.log("CAMERAS:", data);
             await sendReportMutation.mutateAsync({ eventId: event.id, email: reportEmail });
             toast({ title: "Report sent", description: `Report emailed to ${reportEmail}` });
         } catch (error) {

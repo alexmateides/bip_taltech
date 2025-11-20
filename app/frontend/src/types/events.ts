@@ -23,7 +23,7 @@ export interface VideoEvent {
     timestamp_end: number;
     confidence: number; // 0-1 score from detection model
     thumbnailUrl: string;
-    videoId: string;
+    cameraId: string;
     location: EventLocation;
     description?: string;
     detectedObjects?: string[];
@@ -38,7 +38,7 @@ export interface VideoEventListItem {
     timestamp_end: number;
     confidence: number;
     thumbnailUrl: string;
-    videoId: string;
+    cameraId: string;
     location: EventLocation;
     occurredAt: string;
 }

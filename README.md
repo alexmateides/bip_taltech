@@ -15,5 +15,5 @@
    ```sh
   docker-compose up --build
    ```
-3. Backend available at `http://localhost:8000`, frontend Vite dev server at `http://localhost:5173` (uses `VITE_API_BASE_URL=http://backend:8000` over compose network).
+3. Backend available at `http://backend:8000`, frontend Vite dev server at `http://localhost:5173` (uses `VITE_API_BASE_URL=http://backend:8000` over compose network).
 4. Stop with `Ctrl+C` and `docker-compose down` when done.
