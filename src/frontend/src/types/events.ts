@@ -6,7 +6,7 @@ export const EventType = {
 export const EventTypeIcon = {
     [EventType.VehicleCollision]: "car",
     [EventType.PedestrianCollision]: "walking",
-} as const satisfies Record<EventType, "car" | "walking">;
+} as const satisfies Record<(typeof EventType)[keyof typeof EventType], "car" | "walking">;
 
 export type EventType = (typeof EventType)[keyof typeof EventType];
 
@@ -21,7 +21,7 @@ export interface VideoEvent {
     type: EventType;
     timestamp_start: number;
     timestamp_end: number;
-    confidence: number;
+    confidence: number; // 0-1 score from detection model
     thumbnailUrl: string;
     videoId: string;
     location: EventLocation;

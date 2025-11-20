@@ -5,10 +5,28 @@ services:
     build:
       context: ./src/backend
       dockerfile: Dockerfile
-    container_name: traffic-backend
+    container_name: backend
     ports:
       - "8000:8000"
+    env_file:
+      - ./.env
     volumes:
       # optional: mount local videos dir into container so /videos works
       - ./videos:/assets
-      - ./.env:/.env
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: frontend
+    env_file:
+      - ./.env
+    environment:
+      - VITE_API_BASE_URL=http://backend:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./src/frontend:/app
+      - /app/node_modules
