@@ -4,6 +4,7 @@ import base64
 from collections import defaultdict
 from typing import List, Dict, Any, Literal, Optional
 from email.message import EmailMessage
+from fastapi.middleware.cors import CORSMiddleware
 
 import cv2
 import numpy as np
@@ -19,7 +20,16 @@ app = FastAPI(title="Traffic Emergency Monitor POC")
 app.include_router(camera_router, prefix="/api/v1/cameras")
 app.include_router(report_router, prefix="/api/v1/reports")
 
+
 if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8001)
+# Add CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=['*'],  # Allows all methods
+    allow_headers=['*'],  # Allows all headers
+)
