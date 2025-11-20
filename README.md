@@ -1,10 +1,13 @@
+<img src="/assets/logo.svg" alt="Description" width="auto" height="100">
+
 ## Business proposal
 
-> App that allows monitoring of emergency situations from public transport vehicle cameras
+> App that reports emergency situations from (public transport) vehicle dashcams, allowing for faster emergency services response.
 
-- The vehicle streams to server -> it gets analyzed for emergency situations (crashes…)
-- When crash is identified a notification pops up, alerting the dispatcher
-- The dispatcher analyzes the situation (camera recording, location, other metrics…) and possibly alerts the emergency services prompting a faster response.
+- The dashcam stream gets analyzed (either in the vehicle or at central server)
+- When an emergency event is identified, an operator is alerted, analyzes the situation and optionally dispatches the emergency services
+- Location metadata speeds up the process
+- The faster response can save someone's life
 
 ## Running locally with Docker
 
@@ -12,8 +15,10 @@
    - `cp .env.example .env` in repo root (fill backend secrets)
    - `cp src/frontend/.env.example src/frontend/.env` for frontend Vite vars
 2. Start stack:
+   
    ```sh
-  docker-compose up --build
+   docker-compose up --build
    ```
-3. Backend available at `http://backend:8000`, frontend Vite dev server at `http://localhost:5173` (uses `VITE_API_BASE_URL=http://backend:8000` over compose network).
-4. Stop with `Ctrl+C` and `docker-compose down` when done.
+3. Frontend (Web App) available at `http://localhost:5173`.
+4. Backend available at `http://localhost:8000`.
+5. Stop with `Ctrl+C` or `docker-compose down` when done.
