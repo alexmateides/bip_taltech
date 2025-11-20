@@ -1,12 +1,16 @@
 from typing import List, Dict, Any
 import os
 import smtplib
+import json
+from pathlib import Path
 from fastapi.exceptions import HTTPException
 from fastapi.routing import APIRouter
 from src.models import SendReportResponse, SendReportRequest
 from email.message import EmailMessage
 
 router = APIRouter()
+
+VIDEOS_DIR = Path(__file__).parent.parent / "videos"
 
 MOCK_EVENT_DATA: Dict[str, Dict[str, Any]] = {
     "evt1": {
@@ -78,7 +82,12 @@ def send_email_via_smtp(recipient: str, subject: str, body: str) -> None:
 
 @router.post("/api/v1/reports/email", response_model=SendReportResponse)
 def send_report_email(payload: SendReportRequest):
-    event_data = MOCK_EVENT_DATA.get(payload.eventId)
+    events_path = VIDEOS_DIR / f"{payload.camera_id}/events.json"
+
+    with open(events_path, 'r') as f:
+        event_data = json.load(f)
+
+    event_data = event_data.get(payload.camera_id, None)
     if not event_data:
         raise HTTPException(status_code=404, detail="Event not found")
 

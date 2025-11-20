@@ -1,9 +1,10 @@
 from pathlib import Path
 
 from fastapi import FastAPI, Header, HTTPException
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.routing import APIRouter
 import os
+import json
 
 router = APIRouter()
 
@@ -29,18 +30,14 @@ def open_file_range(file_path: Path, start: int, end: int, chunk_size: int = 102
 async def get_cameras():
     return os.listdir(VIDEOS_DIR)
 
-@router.get("/{name}")
+@router.get("/{name}/stream")
 async def get_video(name: str, range: str | None = Header(default=None)):
     """
     Stream .mp4 video with Range support for seeking.
     Usage (frontend):
       <video src="/videos/my_video.mp4" controls></video>
     """
-    # Ensure we always serve .mp4; tweak if you want to allow any extension
-    if not name.endswith(".mp4"):
-        name = f"{name}.mp4"
-
-    video_path = VIDEOS_DIR / name
+    video_path = VIDEOS_DIR / f"{name}/video.mp4"
 
     if not video_path.is_file():
         raise HTTPException(status_code=404, detail="Video not found")
@@ -106,3 +103,13 @@ async def get_video(name: str, range: str | None = Header(default=None)):
         headers=headers,
         status_code=206,  # Partial Content
     )
+
+
+@router.get("/{name}/events")
+async def get_camera_events(name: str):
+    events_path = VIDEOS_DIR / f"{name}/events.json"
+
+    with open(events_path, 'r') as f:
+        data = json.load(f)
+
+    return JSONResponse(status_code=200, content=data)

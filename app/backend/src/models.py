@@ -13,5 +13,6 @@ class SendReportResponse(BaseModel):
     message: str
 
 class SendReportRequest(BaseModel):
-    eventId: str
+    camera_id: str
+    event_id: str
     email: EmailStr
