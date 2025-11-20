@@ -3,7 +3,7 @@ version: "3.9"
 services:
   backend:
     build:
-      context: ./src/backend
+      context: app/backend
       dockerfile: Dockerfile
     container_name: traffic-backend
     ports:
