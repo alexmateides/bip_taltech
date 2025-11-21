@@ -14,7 +14,7 @@
 >   - `/results` – page that displays model inference results
       > Use functional components and React Hooks. Include minimal but clear TypeScript types for props and state.
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We compared the generated file structure with the official Vite + React + TS template and confirmed imports/entrypoints matched the documented setup. Then we ran `npm run dev` to ensure the app started correctly without TypeScript or runtime errors and verified navigation between `/` and `/results` worked in the browser.
 
 
@@ -28,7 +28,7 @@ We compared the generated file structure with the official Vite + React + TS tem
     > Implement a simple `ApiClient` helper that sends a multipart/form-data request with the file and returns JSON predictions.
     > Show how to handle loading and error states in TypeScript.
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We manually tested the flow in the browser by uploading valid and invalid files and inspected network requests in DevTools to ensure the frontend hit the correct endpoint and sent `multipart/form-data`. We also added simple unit checks for the API helper (mocking `fetch`) and verified correct behavior for success, error, and network-failure cases.
 
 
@@ -42,7 +42,7 @@ We manually tested the flow in the browser by uploading valid and invalid files 
 > - Highlights the top prediction
     > Include basic prop typing and default handling when no predictions are available.
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We wrote a small storybook-like test setup and passed different `predictions` arrays (including empty and malformed data) to verify the component rendered gracefully. We also checked TypeScript for type errors and confirmed sorting/highlighting matched expectations visually.
 
 
@@ -56,7 +56,7 @@ We wrote a small storybook-like test setup and passed different `predictions` ar
 > - An inference endpoint `POST /predict` that accepts an uploaded image file (`UploadFile`) and returns a dummy JSON response with `{"label": "example", "score": 0.99}` for now.
     > Structure the code so that model loading and prediction logic can later be extracted into a separate `services/model.py` module.
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We started the app locally (`uvicorn`) and called `/health` and `/predict` with `curl` and Python `requests` to confirm the expected JSON structure and HTTP status codes. We also ran a quick integration test using FastAPI’s `TestClient` to ensure file upload handling worked as expected.
 
 
@@ -69,7 +69,7 @@ We started the app locally (`uvicorn`) and called `/health` and `/predict` with 
 > - A simple in-memory singleton pattern so the model loads once and can be reused across requests
     > For now, implement `predict` to return a mock result like `{"label": "mock_object", "score": 0.95}`, but keep the interface clean so it can be swapped with a real model later.
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We instantiated `ModelService` in a Python REPL and called `predict` with dummy image bytes to check that the interface and return format were stable. Later, when integrating the real model, we reused the same interface and verified that FastAPI responses did not need to change, indicating a correct abstraction boundary.
 
 
@@ -83,7 +83,7 @@ We instantiated `ModelService` in a Python REPL and called `predict` with dummy 
 > - Returns the prediction dict as JSON
     > Handle basic error cases: missing file, unsupported content type, and generic server error, returning appropriate HTTP status codes.
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We wrote small automated tests using FastAPI’s `TestClient` to send: (1) a valid image file, (2) no file, and (3) a text file, verifying the status codes and response bodies matched the expected error handling. We also inspected logs to confirm that exceptions were caught and meaningful messages were returned.
 
 
@@ -96,7 +96,7 @@ We wrote small automated tests using FastAPI’s `TestClient` to send: (1) a val
 > - Add `CORSMiddleware` with allowed origins, methods, and headers
 > - Keep the configuration easy to extend later for production domains.
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We attempted to call the backend from the running Vite frontend and confirmed requests no longer failed with CORS errors in the browser console. We also briefly tightened the allowed origins list to ensure that invalid origins were blocked as expected.
 
 
@@ -111,5 +111,34 @@ We attempted to call the backend from the running Vite frontend and confirmed re
 > - Runs the app with `uvicorn main:app --host 0.0.0.0 --port 8000`
     > Optimize a bit for smaller image size (e.g., using `--no-cache-dir` and a non-root user if simple).
 
-**Validation (1–3 sentences)**  
+**Validation**  
 We built and ran the Docker image locally, then used `curl` from the host to hit `/health` and `/predict`, confirming that the application behaved the same way as in the local (non-Docker) environment. We also inspected the image size and layers to ensure there were no obvious issues like unused build steps.
+
+## 9) Machine Vision model
+
+**Prompt**
+
+> Create a python program that will analyze a car dashcam video, the main purpose is to detect **dangerous events**
+> The program will detect sidelines of the lane the car is currently in a monitor its velocity (and velocity of other objects) and an area before the car. When an object enters the area before the car and their relative velocity is greater than some threshold (risk of colission), the program shall report a **dangerous event**
+> Use modern python, runnable in google colab (output only one code block) with modern packages/algorithms for year 2025
+> # Features
+> The program will have the following features
+> - calculation of velocities (use relevant ultralytics https://docs.ultralytics.com/guides/speed-estimation/)
+> - object detection, tracking and logging counts (https://docs.ultralytics.com/guides/instance-segmentation-and-tracking/)
+> - dangerous event identification (use relative velocities and "alarm area" polygon before the car)
+> - Time profiling (detected objects per second or per 5 s).
+> - Spatial pattern (heatmap of detection centers or occupancy by region).
+> - DD-MM-YYYY hh:mm:ss timestamp in top right corner (starting at provided start point)
+> - the vehicle's speed should be under the timestamp in top right corner
+> # Guidelines
+> - allow configuration via constants at the top of the script
+> - default video location is ./video.mp4
+> - default output dir is ./
+> - default ultralytics model is yolo11x
+> - print progress (ex. each 100 frames + percentage)
+> - clearly mark when the "dangerous" event happens in the video, don't allow multiple dangerous events in the span of x seconds
+> - analyse only each n-th frame by the vision model (but add all the unanalyzed frames to the resulting video, overlay them with the data from the latest frame)
+> - use cuda for analysis if possible
+
+**Validation**  
+We ran the script on short dashcam clips containing both normal driving and synthetic near-collision scenarios to confirm that dangerous events were only triggered when objects entered the alarm area with sufficiently high relative closing speed. We visually inspected the output video to verify overlay correctness (lanes, timestamps, vehicle speed, and danger markers) and cross-checked the logged counts, time profiling, and heatmaps against a few manually counted frames. We also tested both CPU-only and CUDA-enabled environments in Colab to ensure the program fell back gracefully when GPU was unavailable. 
