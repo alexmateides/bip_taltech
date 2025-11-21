@@ -13,6 +13,7 @@ interface Props {
 
 export function SegmentedVideoPlayer({ event }: Props) {
     const clipUrl = `${API_BASE_URL}/${event.camera_id}/stream`;
+    // const clipUrl = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
     const { videoRef } = useVideoSegment({
         src: clipUrl,
@@ -70,6 +71,7 @@ export function SegmentedVideoPlayer({ event }: Props) {
                             ref={videoRef}
                             src={clipUrl}
                             controlsList="nodownload"
+                            preload="metadata"
                             className={`h-full w-full ${isLoading ? "opacity-0" : "opacity-100"}`}
                             controls
                         />
