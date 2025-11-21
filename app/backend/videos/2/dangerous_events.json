@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "timestamp": "20-11-2025 08:00:16",
+    "type": "pedestrian",
+    "confidence": 0.8091405034065247,
+    "ego_speed_kmh": 6.992612195635621e-30,
+    "object_speed_kmh": 22.534785417153973,
+    "relative_speed_kmh": 22.534785417153973
+  },
+  {
+    "id": 2,
+    "timestamp": "20-11-2025 08:00:19",
+    "type": "pedestrian",
+    "confidence": 0.8216047883033752,
+    "ego_speed_kmh": 1.480743229268901e-51,
+    "object_speed_kmh": 18.159893148962542,
+    "relative_speed_kmh": 18.159893148962542
+  },
+  {
+    "id": 3,
+    "timestamp": "20-11-2025 08:01:13",
+    "type": "pedestrian",
+    "confidence": 0.7686835527420044,
+    "ego_speed_kmh": 6.375747229066936e-20,
+    "object_speed_kmh": 11.616941280067007,
+    "relative_speed_kmh": 11.616941280067007
+  },
+  {
+    "id": 4,
+    "timestamp": "20-11-2025 08:01:16",
+    "type": "pedestrian",
+    "confidence": 0.8119850158691406,
+    "ego_speed_kmh": 1.3501169915962513e-41,
+    "object_speed_kmh": 12.874965018814102,
+    "relative_speed_kmh": 12.874965018814102
+  }
+]
