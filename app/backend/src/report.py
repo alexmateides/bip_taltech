@@ -55,7 +55,6 @@ def compose_event_report(event_data: Dict[str, Any]) -> str:
         f"Window: {event_data['timestamp_start']}s - {event_data['timestamp_end']}s",
         f"Location: {event_data['location']}",
         f"Occurred at: {event_data['occurred_at']}",
-        f"Video: {event_data['video_url']}",
         "",
         event_data.get("description", "No description provided."),
     ]
