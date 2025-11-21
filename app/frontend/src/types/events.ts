@@ -1,6 +1,6 @@
 export const EventType = {
     VehicleCollision: "Collision with vehicle",
-    PedestrianCollision: "Collision with pedestrian",
+    PedestrianCollision: "Pedestrian hazard",
 } as const;
 
 export const EventTypeIcon = {

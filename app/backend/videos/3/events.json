@@ -1,7 +1,7 @@
 {
   "events": [
     {
-      "id": "evt5",
+      "id": "evt98",
       "camera_id": "3",
       "type": "Vehicle collision",
       "timestamp_start": 2.0,
@@ -11,7 +11,7 @@
       "description": "Collision involving two vehicles at Tallinn Old Town."
     },
     {
-      "id": "evt6",
+      "id": "evt99",
       "camera_id": "3",
       "type": "Pedestrian near-miss",
       "timestamp_start": 32.0,
