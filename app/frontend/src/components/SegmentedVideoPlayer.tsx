@@ -25,6 +25,7 @@ export function SegmentedVideoPlayer({ event }: Props) {
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsLoading(true);
         setHasError(false);
     }, [clipUrl]);
