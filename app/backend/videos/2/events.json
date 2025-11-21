@@ -9,7 +9,6 @@
       "location": "Tallinn Old Town",
       "confidence": 0.91,
       "occurred_at": "2024-05-01T10:15:00Z",
-      "video_url": "https://example.com/videos/evt1.mp4",
       "description": "Collision involving two vehicles at Tallinn Old Town."
     },
     {
@@ -21,7 +20,6 @@
       "location": "Kesklinn",
       "confidence": 0.88,
       "occurred_at": "2024-05-02T08:20:00Z",
-      "video_url": "https://example.com/videos/evt2.mp4",
       "description": "Pedestrian detected dangerously close to roadway."
     }
   ]

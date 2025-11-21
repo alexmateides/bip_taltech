@@ -71,6 +71,7 @@ export default function EventList() {
         () => sortByDate(filterEvents(events, search, confidence), sortDirection),
         [events, search, confidence, sortDirection]
     );
+    console.log("EVENTY: ", events)
 
     return (
         <div className="mx-auto w-full max-w-6xl space-y-8 px-6 py-10">
