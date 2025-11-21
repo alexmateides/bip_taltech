@@ -1,0 +1,247 @@
+[
+  {
+    "window_index": 0,
+    "window_start_timestamp": "20-11-2025 08:00:00",
+    "window_end_timestamp": "20-11-2025 08:00:05",
+    "detections": 600,
+    "detections_per_second": 120.0
+  },
+  {
+    "window_index": 1,
+    "window_start_timestamp": "20-11-2025 08:00:05",
+    "window_end_timestamp": "20-11-2025 08:00:10",
+    "detections": 700,
+    "detections_per_second": 140.0
+  },
+  {
+    "window_index": 2,
+    "window_start_timestamp": "20-11-2025 08:00:10",
+    "window_end_timestamp": "20-11-2025 08:00:15",
+    "detections": 809,
+    "detections_per_second": 161.8
+  },
+  {
+    "window_index": 3,
+    "window_start_timestamp": "20-11-2025 08:00:15",
+    "window_end_timestamp": "20-11-2025 08:00:20",
+    "detections": 792,
+    "detections_per_second": 158.4
+  },
+  {
+    "window_index": 4,
+    "window_start_timestamp": "20-11-2025 08:00:20",
+    "window_end_timestamp": "20-11-2025 08:00:25",
+    "detections": 939,
+    "detections_per_second": 187.8
+  },
+  {
+    "window_index": 5,
+    "window_start_timestamp": "20-11-2025 08:00:25",
+    "window_end_timestamp": "20-11-2025 08:00:30",
+    "detections": 1203,
+    "detections_per_second": 240.6
+  },
+  {
+    "window_index": 6,
+    "window_start_timestamp": "20-11-2025 08:00:30",
+    "window_end_timestamp": "20-11-2025 08:00:35",
+    "detections": 647,
+    "detections_per_second": 129.4
+  },
+  {
+    "window_index": 7,
+    "window_start_timestamp": "20-11-2025 08:00:35",
+    "window_end_timestamp": "20-11-2025 08:00:40",
+    "detections": 918,
+    "detections_per_second": 183.6
+  },
+  {
+    "window_index": 8,
+    "window_start_timestamp": "20-11-2025 08:00:40",
+    "window_end_timestamp": "20-11-2025 08:00:45",
+    "detections": 1338,
+    "detections_per_second": 267.6
+  },
+  {
+    "window_index": 9,
+    "window_start_timestamp": "20-11-2025 08:00:45",
+    "window_end_timestamp": "20-11-2025 08:00:50",
+    "detections": 1477,
+    "detections_per_second": 295.4
+  },
+  {
+    "window_index": 10,
+    "window_start_timestamp": "20-11-2025 08:00:50",
+    "window_end_timestamp": "20-11-2025 08:00:55",
+    "detections": 1363,
+    "detections_per_second": 272.6
+  },
+  {
+    "window_index": 11,
+    "window_start_timestamp": "20-11-2025 08:00:55",
+    "window_end_timestamp": "20-11-2025 08:01:00",
+    "detections": 1208,
+    "detections_per_second": 241.6
+  },
+  {
+    "window_index": 12,
+    "window_start_timestamp": "20-11-2025 08:01:00",
+    "window_end_timestamp": "20-11-2025 08:01:05",
+    "detections": 1062,
+    "detections_per_second": 212.4
+  },
+  {
+    "window_index": 13,
+    "window_start_timestamp": "20-11-2025 08:01:05",
+    "window_end_timestamp": "20-11-2025 08:01:10",
+    "detections": 682,
+    "detections_per_second": 136.4
+  },
+  {
+    "window_index": 14,
+    "window_start_timestamp": "20-11-2025 08:01:10",
+    "window_end_timestamp": "20-11-2025 08:01:15",
+    "detections": 836,
+    "detections_per_second": 167.2
+  },
+  {
+    "window_index": 15,
+    "window_start_timestamp": "20-11-2025 08:01:15",
+    "window_end_timestamp": "20-11-2025 08:01:20",
+    "detections": 501,
+    "detections_per_second": 100.2
+  },
+  {
+    "window_index": 16,
+    "window_start_timestamp": "20-11-2025 08:01:20",
+    "window_end_timestamp": "20-11-2025 08:01:25",
+    "detections": 452,
+    "detections_per_second": 90.4
+  },
+  {
+    "window_index": 17,
+    "window_start_timestamp": "20-11-2025 08:01:25",
+    "window_end_timestamp": "20-11-2025 08:01:30",
+    "detections": 742,
+    "detections_per_second": 148.4
+  },
+  {
+    "window_index": 18,
+    "window_start_timestamp": "20-11-2025 08:01:30",
+    "window_end_timestamp": "20-11-2025 08:01:35",
+    "detections": 851,
+    "detections_per_second": 170.2
+  },
+  {
+    "window_index": 19,
+    "window_start_timestamp": "20-11-2025 08:01:35",
+    "window_end_timestamp": "20-11-2025 08:01:40",
+    "detections": 1281,
+    "detections_per_second": 256.2
+  },
+  {
+    "window_index": 20,
+    "window_start_timestamp": "20-11-2025 08:01:40",
+    "window_end_timestamp": "20-11-2025 08:01:45",
+    "detections": 1587,
+    "detections_per_second": 317.4
+  },
+  {
+    "window_index": 21,
+    "window_start_timestamp": "20-11-2025 08:01:45",
+    "window_end_timestamp": "20-11-2025 08:01:50",
+    "detections": 1801,
+    "detections_per_second": 360.2
+  },
+  {
+    "window_index": 22,
+    "window_start_timestamp": "20-11-2025 08:01:50",
+    "window_end_timestamp": "20-11-2025 08:01:55",
+    "detections": 1741,
+    "detections_per_second": 348.2
+  },
+  {
+    "window_index": 23,
+    "window_start_timestamp": "20-11-2025 08:01:55",
+    "window_end_timestamp": "20-11-2025 08:02:00",
+    "detections": 1331,
+    "detections_per_second": 266.2
+  },
+  {
+    "window_index": 24,
+    "window_start_timestamp": "20-11-2025 08:02:00",
+    "window_end_timestamp": "20-11-2025 08:02:05",
+    "detections": 1756,
+    "detections_per_second": 351.2
+  },
+  {
+    "window_index": 25,
+    "window_start_timestamp": "20-11-2025 08:02:05",
+    "window_end_timestamp": "20-11-2025 08:02:10",
+    "detections": 1547,
+    "detections_per_second": 309.4
+  },
+  {
+    "window_index": 26,
+    "window_start_timestamp": "20-11-2025 08:02:10",
+    "window_end_timestamp": "20-11-2025 08:02:15",
+    "detections": 1589,
+    "detections_per_second": 317.8
+  },
+  {
+    "window_index": 27,
+    "window_start_timestamp": "20-11-2025 08:02:15",
+    "window_end_timestamp": "20-11-2025 08:02:20",
+    "detections": 1267,
+    "detections_per_second": 253.4
+  },
+  {
+    "window_index": 28,
+    "window_start_timestamp": "20-11-2025 08:02:20",
+    "window_end_timestamp": "20-11-2025 08:02:25",
+    "detections": 1435,
+    "detections_per_second": 287.0
+  },
+  {
+    "window_index": 29,
+    "window_start_timestamp": "20-11-2025 08:02:25",
+    "window_end_timestamp": "20-11-2025 08:02:30",
+    "detections": 1539,
+    "detections_per_second": 307.8
+  },
+  {
+    "window_index": 30,
+    "window_start_timestamp": "20-11-2025 08:02:30",
+    "window_end_timestamp": "20-11-2025 08:02:35",
+    "detections": 1809,
+    "detections_per_second": 361.8
+  },
+  {
+    "window_index": 31,
+    "window_start_timestamp": "20-11-2025 08:02:35",
+    "window_end_timestamp": "20-11-2025 08:02:40",
+    "detections": 1695,
+    "detections_per_second": 339.0
+  },
+  {
+    "window_index": 32,
+    "window_start_timestamp": "20-11-2025 08:02:40",
+    "window_end_timestamp": "20-11-2025 08:02:45",
+    "detections": 1685,
+    "detections_per_second": 337.0
+  },
+  {
+    "window_index": 33,
+    "window_start_timestamp": "20-11-2025 08:02:45",
+    "window_end_timestamp": "20-11-2025 08:02:50",
+    "detections": 1509,
+    "detections_per_second": 301.8
+  },
+  {
+    "window_index": 34,
+    "window_start_timestamp": "20-11-2025 08:02:50",
+    "window_end_timestamp": "20-11-2025 08:02:55",
+    "detections": 361,
+    "detections_per_second": 72.2
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "events": [
+    {
+      "id": "evt3",
+      "camera_id": "2",
+      "type": "Pedestrian hazard",
+      "timestamp_start": 16.0,
+      "timestamp_end": 25.0,
+      "location": "Tallinn",
+      "confidence": 0.8091405034065247,
+      "occurred_at": "2025-11-20T08:00:16Z",
+      "description": "Pedestrian detected with relative speed 22.53 km/h while ego vehicle nearly stationary."
+    },
+    {
+      "id": "evt3",
+      "camera_id": "2",
+      "type": "Pedestrian hazard",
+      "timestamp_start": 19.0,
+      "timestamp_end": 30.0,
+      "location": "Tallinn",
+      "confidence": 0.8216047883033752,
+      "occurred_at": "2025-11-20T08:00:19Z",
+      "description": "Pedestrian detected with relative speed 18.16 km/h while ego vehicle nearly stationary."
+    },
+    {
+      "id": "evt5",
+      "camera_id": "2",
+      "type": "Pedestrian hazard",
+      "timestamp_start": 73.0,
+      "timestamp_end": 81.0,
+      "location": "Tallinn",
+      "confidence": 0.7686835527420044,
+      "occurred_at": "2025-11-20T08:01:13Z",
+      "description": "Pedestrian detected with relative speed 11.62 km/h near camera 2."
+    },
+    {
+      "id": "evt6",
+      "camera_id": "2",
+      "type": "Pedestrian hazard",
+      "timestamp_start": 76.0,
+      "timestamp_end": 86.0,
+      "location": "Tallinn",
+      "confidence": 0.8119850158691406,
+      "occurred_at": "2025-11-20T08:01:16Z",
+      "description": "Pedestrian detected with relative speed 12.87 km/h near camera 2."
+    }
+  ]
+}
